@@ -42,6 +42,11 @@ Pela **Arasaka Central** (Loja → Apps), ou:
 
 Rode **sem sudo**. Para remover: `./uninstall.sh` (tira também o atalho de teclado).
 
+### Windows 10/11
+
+Pela **Arasaka Central** (Loja → Apps), ou extraia o `ArasakaCyberdeck-vX.Y.Z-windows.zip` e dê dois cliques em **`install.bat`**. O instalador instala o Python 3.12 pelo winget (se ainda não houver), cria os atalhos no Menu Iniciar e na Área de Trabalho e o comando `arasaka-cyberdeck`. Não precisa de administrador. Abra e feche com **Ctrl+Alt+Espaço**. No Windows ele acha os programas do Menu Iniciar, os apps da Microsoft Store e os jogos da Steam, e as ações usam os comandos do Windows (bloquear, suspender, reiniciar, desligar).
+Para remover: `powershell -ExecutionPolicy Bypass -File uninstall.ps1` (os seus dados são mantidos).
+
 ## Privacidade
 
 Nada sai do PC: a busca é local e o Cyberdeck só guarda quantas vezes você abriu cada item

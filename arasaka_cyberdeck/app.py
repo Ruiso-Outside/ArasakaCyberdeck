@@ -10,11 +10,11 @@ import os
 import sys
 from pathlib import Path
 
-from PySide6.QtCore import QEvent, QPointF, QRectF, QSize, Qt, QTimer
+from PySide6.QtCore import QEvent, QFileInfo, QPointF, QRectF, QSize, Qt, QTimer
 from PySide6.QtGui import QColor, QFont, QGuiApplication, QIcon, QKeySequence, QPainter, QPen, QPixmap, QPolygonF, QShortcut
 from PySide6.QtNetwork import QLocalServer, QLocalSocket
-from PySide6.QtWidgets import (QApplication, QFrame, QHBoxLayout, QLabel, QLineEdit, QListWidget, QListWidgetItem,
-                               QMessageBox, QVBoxLayout, QWidget)
+from PySide6.QtWidgets import (QApplication, QFileIconProvider, QFrame, QHBoxLayout, QLabel, QLineEdit, QListWidget,
+                               QListWidgetItem, QMessageBox, QVBoxLayout, QWidget)
 
 from . import core
 from .core import APP_NAME, VERSION, Item
@@ -80,6 +80,10 @@ class Row(QWidget):
 def icon_pixmap(it: Item, size: int) -> QPixmap | None:
     if not it.icon:
         return None
+    if core.WIN and os.path.isabs(it.icon) and it.icon.lower().endswith((".lnk", ".url", ".exe")):
+        # Windows: o icone que o Explorer mostra para o atalho (o .lnk em si nao e uma imagem)
+        ic = QFileIconProvider().icon(QFileInfo(it.icon))
+        return None if ic.isNull() else ic.pixmap(QSize(size, size))
     ic = QIcon(it.icon) if os.path.isabs(it.icon) else QIcon.fromTheme(it.icon)
     if ic.isNull() and not os.path.isabs(it.icon):
         for base in (core.HOME / ".local/share/icons/hicolor", Path("/usr/share/icons/hicolor"), Path("/usr/share/pixmaps")):
